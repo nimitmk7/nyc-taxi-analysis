@@ -1,0 +1,31 @@
+spark-submit task1a-sql.py /shared/CS-GY-6513/hw-map-reduce/Data/trip_data_shorter.csv /shared/CS-GY-6513/hw-map-reduce/Data/fare_data_shorter.csv
+spark-submit task1a.py /shared/CS-GY-6513/hw-map-reduce/Data/trip_data_shorter.csv /shared/CS-GY-6513/hw-map-reduce/Data/fare_data_shorter.csv
+
+
+from pyspark import SparkContext, SparkConf
+cf = SparkConf()
+cf.set("spark.submit.deployMode","client")
+sc = SparkContext.getOrCreate(cf)
+rdd_fares = sc.textFile("/shared/CS-GY-6513/hw-map-reduce/Data/fare_data_shorter.csv", 4)
+rdd_trips = sc.textFile("/shared/CS-GY-6513/hw-map-reduce/Data/trip_data_shorter.csv", 4)
+
+spark = SparkSession.builder.appName("taskb-sql").getOrCreate()
+
+df_taxi = spark.read.format('csv').options(header = 'false', inferSchema = 'true').load("task1a-sql.out")
+
+spark-submit task1a.py /shared/CS-GY-6513/hw-map-reduce/Data/trip_data_shorter.csv /shared/CS-GY-6513/hw-map-reduce/Data/fare_data_shorter.csv
+
+spark-submit task1a-sql.py /shared/CS-GY-6513/hw-map-reduce/Data/trip_data_shorter.csv /shared/CS-GY-6513/hw-map-reduce/Data/fare_data_shorter.csv
+
+hadoop fs –getmerge task1a.out task1a.out
+
+spark-submit task1b-sql.py /shared/CS-GY-6513/hw-map-reduce/Data/fare_data_shorter.csv /shared/CS-GY-6513/hw-map-reduce/Data/Licenses.csv
+
+
+
+
+for range in ranges[0:1]:
+    lower_bound = range[0]
+        if lower_bound == 0:
+            higher_bound = range[1]
+            range_count = df_taxi.filter(df_taxi._c15 >= lower_bound & df_taxi._c15 <= higher_bound).count()
